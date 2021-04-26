@@ -1,0 +1,77 @@
+
+#task -- backup all the dbs present in mysql-server and save it in a s3 folder via shell scripting.
+password of mysql-server would be passed as cmd line argument.
+ eg: sh mysql_bkp_script.sh rohit
+
+
+#installation of mysql server in Amazon Linux 2
+#mariadb server is same as mysql server
+
+sudo yum update -y 
+
+sudo yum install -y mariadb-server
+
+sudo systemctl enable mariadb
+
+sudo systemctl start mariadb
+
+mysql-server --version
+
+#change the root password
+sudo mysql_secure_installation
+-----set the password --
+
+
+#enter the mysql as root user
+mysql -u root -p
+
+#will show all the db
+show databases;
+
+#create a db
+create database mydb_rohit;
+
+#enter into the db
+use mydb_rohit;
+
+#how to see tables
+show tables;
+
+#create a table
+create table sample(id int,name varchar(14));
+create table sample2(roll int,name varchar(14),marks int);
+
+
+#insert into table
+insert into sample2 values (1,'rohit',25);
+insert into sample values (1,'rohit');
+
+#how to see table contents
+select * from sample;
+
+#create a different user
+create user 'rohit'@'%' identified by 'rohit';
+grant all privileges on *.* to 'rohit'@'%';
+flush privileges;
+
+#will exit from mysql-server
+exit
+
+#logging as rohit user now in mysql-server
+mysql -u rohit -p                 
+
+
+Backup db  --mysqldump cmd
+
+#will bckup db mydb_rohit as root user
+mysqldump -u root -pRohit mydb_rohit > /home/ec2-user/def.sql
+
+#will bckup all db as root user
+mysqldump -u root -pRohit --all-databases > abc.sql
+
+
+
+
+
+
+
